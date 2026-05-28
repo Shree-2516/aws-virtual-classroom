@@ -1,13 +1,27 @@
+# Environments and Sensitive Configuration
 .env
+.env.example
+virtual-classroom.pem
+*.pem
+
+# Project Documentation & Large Files
+Project-Doc.pdf
+*.pdf
+
+# Python Virtual Environments & Caching
 .venv/
+venv/
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
 
-# Editor/OS
+# Editor, IDE, and OS Metadata Files
 .vscode/
 .idea/
 Thumbs.db
 Desktop.ini
+
+# App Uploads (Prevents local test files from cluttering Git)
+uploads/
