@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Materials | AWS Virtual Classroom{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="col-md-8 col-lg-6">
+            
+            <!-- Glassmorphic Upload Card -->
+            <div class="glass-card p-5">
+                <div class="text-center mb-4">
+                    <i class="bi bi-cloud-arrow-up-fill text-gradient display-4 d-block mb-2"></i>
+                    <h2 class="fw-bold mb-1">Upload Course Material</h2>
+                    <p class="text-muted small">Add new instructional assets (PDFs, Notes, Videos) locally</p>
+                </div>
+                
+                <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+                    
+                    <!-- Title Input -->
+                    <div class="mb-3">
+                        <label for="title" class="form-label small text-muted fw-bold">Material Title</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-type-h1"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control form-control-custom border-start-0" 
+                                   id="title" 
+                                   name="title" 
+                                   value="{{ title if title else '' }}"
+                                   placeholder="e.g. AWS IAM Deep Dive Lectures" 
+                                   required 
+                                   style="border-radius: 0 10px 10px 0 !important;">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- File Type Selector -->
+                        <div class="col-md-6 mb-3">
+                            <label for="file_type" class="form-label small text-muted fw-bold">Resource Type</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                    <i class="bi bi-collection"></i>
+                                </span>
+                                <select class="form-select form-select-custom border-start-0 form-control-custom" 
+                                        id="file_type" 
+                                        name="file_type" 
+                                        required
+                                        style="border-radius: 0 10px 10px 0 !important;">
+                                    <option value="" disabled selected>Select type...</option>
+                                    <option value="pdf" {% if file_type == 'pdf' %}selected{% endif %}>PDF Document</option>
+                                    <option value="note" {% if file_type == 'note' %}selected{% endif %}>Study Note (TXT/DOC)</option>
+                                    <option value="video" {% if file_type == 'video' %}selected{% endif %}>Video Lecture (MP4)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Course Association Dropdown -->
+                        <div class="col-md-6 mb-3">
+                            <label for="course_id" class="form-label small text-muted fw-bold">Associate Course</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                    <i class="bi bi-journal-bookmark"></i>
+                                </span>
+                                <select class="form-select form-select-custom border-start-0 form-control-custom" 
+                                        id="course_id" 
+                                        name="course_id"
+                                        style="border-radius: 0 10px 10px 0 !important;">
+                                    <option value="" selected>General Resource (None)</option>
+                                    {% for course in courses %}
+                                        <option value="{{ course.id }}">{{ course.course_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- File Chooser Container -->
+                    <div class="mb-4">
+                        <label for="file" class="form-label small text-muted fw-bold">Select File</label>
+                        <div class="p-4 text-center rounded border border-dashed border-secondary border-opacity-50 bg-dark bg-opacity-25 transition-all" id="dropzone" style="border-radius: 12px;">
+                            <i class="bi bi-file-earmark-arrow-up text-primary display-6 d-block mb-2" id="file-icon"></i>
+                            <span class="d-block small text-muted mb-2" id="file-text">Drag & drop your file here, or click to browse</span>
+                            <input type="file" 
+                                   class="form-control d-none" 
+                                   id="file" 
+                                   name="file" 
+                                   required 
+                                   onchange="updateFileInfo()">
+                            <button type="button" class="btn btn-sm btn-glass rounded-pill px-3" onclick="document.getElementById('file').click()">
+                                Choose File
+                            </button>
+                            <div class="mt-2 text-muted small" style="font-size: 0.75rem;">
+                                Supported: PDF, TXT, DOC, DOCX, MP4, WEBM (Max 32MB)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-gradient-primary w-100 py-2.5 mb-3 shadow">
+                        Upload to Local Storage <i class="bi bi-cloud-check ms-1"></i>
+                    </button>
+                    
+                    <!-- Back Link -->
+                    <div class="text-center">
+                        <a href="{{ url_for('dashboard') }}" class="text-muted small text-decoration-none">
+                            <i class="bi bi-arrow-left me-1"></i> Return to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // File inputs visual changes
+    function updateFileInfo() {
+        var input = document.getElementById('file');
+        var fileText = document.getElementById('file-text');
+        var fileIcon = document.getElementById('file-icon');
+        var dropzone = document.getElementById('dropzone');
+        
+        if (input.files && input.files.length > 0) {
+            var file = input.files[0];
+            fileText.innerHTML = "<strong>" + file.name + "</strong> (" + formatBytes(file.size) + ")";
+            fileIcon.className = "bi bi-check-circle-fill text-success display-6 d-block mb-2";
+            dropzone.style.borderColor = "var(--primary-indigo)";
+            dropzone.style.backgroundColor = "rgba(99, 102, 241, 0.05)";
+        } else {
+            fileText.innerHTML = "Drag & drop your file here, or click to browse";
+            fileIcon.className = "bi bi-file-earmark-arrow-up text-primary display-6 d-block mb-2";
+            dropzone.style.borderColor = "rgba(255, 255, 255, 0.1)";
+            dropzone.style.backgroundColor = "transparent";
+        }
+    }
+
+    // Helper: format bytes into human-readable strings
+    function formatBytes(bytes, decimals = 2) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const dm = decimals < 0 ? 0 : decimals;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+    
+    // Add nice drag over styling highlights
+    const dropzone = document.getElementById('dropzone');
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropzone.style.borderColor = "var(--primary-indigo)";
+            dropzone.style.backgroundColor = "rgba(99, 102, 241, 0.05)";
+        }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            if (eventName === 'drop') {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                document.getElementById('file').files = files;
+                updateFileInfo();
+            } else {
+                updateFileInfo();
+            }
+        }, false);
+    });
+</script>
+{% endblock %}

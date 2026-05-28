@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Login | AWS Virtual Classroom{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="col-md-6 col-lg-5">
+            
+            <!-- Glassmorphic Login Card -->
+            <div class="glass-card p-5">
+                <div class="text-center mb-4">
+                    <i class="bi bi-shield-lock-fill text-gradient display-4 d-block mb-2"></i>
+                    <h2 class="fw-bold mb-1">Welcome Back</h2>
+                    <p class="text-muted small">Sign in to your AWS Virtual Classroom account</p>
+                </div>
+                
+                <form action="{{ url_for('login') }}" method="POST" autocomplete="off">
+                    
+                    <!-- Username or Email Input -->
+                    <div class="mb-3">
+                        <label for="login_input" class="form-label small text-muted fw-bold">Username or Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-person-fill"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control form-control-custom border-start-0" 
+                                   id="login_input" 
+                                   name="login_input" 
+                                   value="{{ login_input if login_input else '' }}"
+                                   placeholder="Enter username or email" 
+                                   required 
+                                   style="border-radius: 0 10px 10px 0 !important;">
+                        </div>
+                    </div>
+                    
+                    <!-- Password Input -->
+                    <div class="mb-4">
+                        <label for="password" class="form-label small text-muted fw-bold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-key-fill"></i>
+                            </span>
+                            <input type="password" 
+                                   class="form-control form-control-custom border-start-0" 
+                                   id="password" 
+                                   name="password" 
+                                   placeholder="Enter password" 
+                                   required 
+                                   style="border-radius: 0 10px 10px 0 !important;">
+                        </div>
+                    </div>
+                    
+                    <!-- Login Submit Button -->
+                    <button type="submit" class="btn btn-gradient-primary w-100 py-2.5 mb-3 shadow">
+                        Sign In <i class="bi bi-box-arrow-in-right ms-1"></i>
+                    </button>
+                    
+                    <!-- Register Link -->
+                    <div class="text-center">
+                        <span class="text-muted small">Don't have an account yet?</span>
+                        <a href="{{ url_for('register') }}" class="text-gradient small fw-bold ms-1 text-decoration-none">Create Account</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

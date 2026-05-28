@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Home | AWS Virtual Classroom{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="row align-items-center justify-content-center py-5">
+        <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+            <h1 class="display-3 fw-bold mb-3 float-animation">
+                <span class="text-gradient">AWS Virtual</span> <br>
+                <span>Classroom</span>
+            </h1>
+            <p class="lead text-muted mb-4 fs-4" style="max-width: 500px;">
+                An interactive and secure cloud learning repository. Store, manage, and consume AWS training courses, documents, PDFs, and training videos all in one centralized hub.
+            </p>
+            <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-gradient-primary btn-lg px-4 shadow">
+                        <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-gradient-primary btn-lg px-4 shadow">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Access Classroom
+                    </a>
+                    <a href="{{ url_for('register') }}" class="btn btn-glass btn-lg px-4">
+                        <i class="bi bi-person-plus me-2"></i>Register Now
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Cloud Visual Animation Element -->
+        <div class="col-lg-5 col-md-8 text-center float-animation">
+            <div class="glass-card p-5 d-inline-block text-center border-glow" style="border-radius: 24px; background: rgba(30, 27, 75, 0.35);">
+                <i class="bi bi-cloud-arrow-up-fill text-gradient display-1 d-block mb-3"></i>
+                <h4 class="fw-bold mb-2">Cloud-Native Sandbox</h4>
+                <p class="text-muted mb-0 small">Secure asset delivery with locally cached resources, designed to scale seamlessly onto AWS S3.</p>
+                
+                <!-- Micro dashboard status preview -->
+                <div class="mt-4 p-3 rounded bg-dark bg-opacity-50 text-start border border-secondary border-opacity-25">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="small text-muted">Service Status</span>
+                        <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-25 px-2">Online</span>
+                    </div>
+                    <div class="small text-light"><i class="bi bi-database-check text-primary me-2"></i>MySQL Database Connected</div>
+                    <div class="small text-light mt-1"><i class="bi bi-shield-check text-success me-2"></i>Hashing Protocol Active</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Features Grid -->
+    <div class="row g-4 mt-5">
+        <div class="col-md-4">
+            <div class="glass-card glass-card-hover p-4 h-100">
+                <div class="rounded-circle bg-primary bg-opacity-15 p-3 d-inline-block mb-3 border border-primary border-opacity-25">
+                    <i class="bi bi-journal-bookmark-fill text-primary fs-3"></i>
+                </div>
+                <h3 class="h4 fw-bold">1. Structured Courses</h3>
+                <p class="text-muted">Explore targeted AWS curriculum paths designed to prepare you for official Cloud Practitioner, Solutions Architect, and Developer certifications.</p>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="glass-card glass-card-hover p-4 h-100">
+                <div class="rounded-circle bg-purple bg-opacity-15 p-3 d-inline-block mb-3 border border-purple border-opacity-25" style="background-color: rgba(168, 85, 247, 0.15); border-color: rgba(168, 85, 247, 0.3) !important;">
+                    <i class="bi bi-file-earmark-pdf-fill text-gradient fs-3"></i>
+                </div>
+                <h3 class="h4 fw-bold">2. Digital Notes & PDFs</h3>
+                <p class="text-muted">Access detailed course study notes, reference sheets, architectures, and whitepapers uploaded by AWS instructors directly to the sandbox.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="glass-card glass-card-hover p-4 h-100">
+                <div class="rounded-circle bg-pink bg-opacity-15 p-3 d-inline-block mb-3 border border-pink border-opacity-25" style="background-color: rgba(236, 72, 153, 0.15); border-color: rgba(236, 72, 153, 0.3) !important;">
+                    <i class="bi bi-play-btn-fill text-danger fs-3"></i>
+                </div>
+                <h3 class="h4 fw-bold">3. Media Streams</h3>
+                <p class="text-muted">Watch high-definition MP4 instructional videos directly in-browser. Learn on-demand with our integrated fluid HTML5 player system.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

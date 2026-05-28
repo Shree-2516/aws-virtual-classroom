@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Register | AWS Virtual Classroom{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+        <div class="col-md-6 col-lg-5">
+            
+            <!-- Glassmorphic Registration Card -->
+            <div class="glass-card p-5">
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-plus-fill text-gradient display-4 d-block mb-2"></i>
+                    <h2 class="fw-bold mb-1">Create Account</h2>
+                    <p class="text-muted small">Join the AWS Virtual Classroom Sandbox</p>
+                </div>
+                
+                <form action="{{ url_for('register') }}" method="POST" autocomplete="off">
+                    
+                    <!-- Username Input -->
+                    <div class="mb-3">
+                        <label for="username" class="form-label small text-muted fw-bold">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control form-control-custom border-start-0" 
+                                   id="username" 
+                                   name="username" 
+                                   value="{{ username if username else '' }}"
+                                   placeholder="Choose a username" 
+                                   required 
+                                   style="border-radius: 0 10px 10px 0 !important;">
+                        </div>
+                    </div>
+                    
+                    <!-- Email Input -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label small text-muted fw-bold">Email Address</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-envelope"></i>
+                            </span>
+                            <input type="email" 
+                                   class="form-control form-control-custom border-start-0" 
+                                   id="email" 
+                                   name="email" 
+                                   value="{{ email if email else '' }}"
+                                   placeholder="name@example.com" 
+                                   required 
+                                   style="border-radius: 0 10px 10px 0 !important;">
+                        </div>
+                    </div>
+                    
+                    <!-- Role Dropdown (Conditional/Demo helper) -->
+                    {% if demo_allow_role_select %}
+                    <div class="mb-3">
+                        <label for="role" class="form-label small text-muted fw-bold">Demo Role Assignment</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-shield-lock"></i>
+                            </span>
+                            <select class="form-select form-select-custom border-start-0 form-control-custom" 
+                                    id="role" 
+                                    name="role" 
+                                    style="border-radius: 0 10px 10px 0 !important;">
+                                <option value="student" {% if role == 'student' %}selected{% endif %}>Student Access Role</option>
+                                <option value="admin" {% if role == 'admin' %}selected{% endif %}>Administrator Access Role</option>
+                            </select>
+                        </div>
+                        <div class="form-text small text-muted">
+                            <i class="bi bi-info-circle me-1 text-primary"></i> Enabled by <code>DEMO_ALLOW_ROLE_SELECT</code> in env.
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- Password Input -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label small text-muted fw-bold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-key"></i>
+                            </span>
+                            <input type="password" 
+                                   class="form-control form-control-custom border-start-0" 
+                                   id="password" 
+                                   name="password" 
+                                   placeholder="Create password (min 6 chars)" 
+                                   required 
+                                   style="border-radius: 0 10px 10px 0 !important;">
+                        </div>
+                    </div>
+                    
+                    <!-- Confirm Password Input -->
+                    <div class="mb-4">
+                        <label for="confirm_password" class="form-label small text-muted fw-bold">Confirm Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted" style="border: 1px solid var(--glass-border); border-radius: 10px 0 0 10px;">
+                                <i class="bi bi-key-fill"></i>
+                            </span>
+                            <input type="password" 
+                                   class="form-control form-control-custom border-start-0" 
+                                   id="confirm_password" 
+                                   name="confirm_password" 
+                                   placeholder="Repeat your password" 
+                                   required 
+                                   style="border-radius: 0 10px 10px 0 !important;">
+                        </div>
+                    </div>
+                    
+                    <!-- Register Submit Button -->
+                    <button type="submit" class="btn btn-gradient-primary w-100 py-2.5 mb-3 shadow">
+                        Create Account <i class="bi bi-arrow-right-short ms-1"></i>
+                    </button>
+                    
+                    <!-- Login Link -->
+                    <div class="text-center">
+                        <span class="text-muted small">Already have an account?</span>
+                        <a href="{{ url_for('login') }}" class="text-gradient small fw-bold ms-1 text-decoration-none">Sign In</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
