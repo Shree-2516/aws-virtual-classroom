@@ -8,6 +8,10 @@ virtual-classroom.pem
 Project-Doc.pdf
 *.pdf
 
+# Demo Videos
+snapshots/Demo.mp4
+snapshots/Final_Demo.mp4
+
 # Python Virtual Environments & Caching
 .venv/
 venv/
