@@ -3,6 +3,8 @@
 A cloud-based Virtual Classroom and Learning Platform developed using Flask, MySQL, and AWS services including EC2, RDS, and S3. This project allows students to register, log in, access course materials, and download learning resources online.
 
 ---
+## Live Project : http://54.162.83.214/
+## Youtube Demo : https://youtu.be/vifi_VLign8
 
 # Project Overview
 
